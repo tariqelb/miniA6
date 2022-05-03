@@ -12,33 +12,6 @@
 
 #include "../parssing/minishell.h"
 
-char	*ft_echo_q(char *exp)
-{
-	int	flag;
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	flag = 0;
-	while (exp[i])
-	{
-		if (exp[i] == 39)
-			flag++;
-		if (exp[i] == 34 && !(flag % 2))
-		{
-			i++;
-			while (exp[i] != 34 && exp[i])
-				exp[j++] = exp[i++];
-			i++;
-		}
-		else
-			exp[j++] = exp[i++];
-	}
-	exp[j] = 0;
-	return (exp);
-}
-
 void	ft_echo_util_two(t_mini *line, t_echo ech, g_built *built)
 {
 	char	*exp;
@@ -56,7 +29,7 @@ void	ft_echo_util_two(t_mini *line, t_echo ech, g_built *built)
 		k = 0;
 		while (k < ech.i)
 		{
-			exp = ft_echo_q(ft_expand(line, &exp, opt[j], built));
+			exp = ft_expand(line, &exp, opt[j], built);
 			write(ech.fds[k], exp, ft_strlen(exp));
 			if (opt[j + 1])
 				write(ech.fds[k], " ", 1);
