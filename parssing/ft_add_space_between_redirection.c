@@ -12,29 +12,52 @@
 
 #include "minishell.h"
 
-char	**ft_remove_quotes(char **cmds)
+char	*ft_handle_quotes_util(char *cmds, int k, char c)
 {
-	int	i;
 	int	j;
 
+	j = 1;
+	while (cmds[j])
+	{
+		if (cmds[j] == c && cmds[j + 1] == 0)
+		{
+			k++;
+			j++;
+		}
+		else
+		{
+			if (cmds[j] == c && cmds[j + 1])
+				k++;
+			else
+				cmds[j - 1 - k] = cmds[j];
+			j++;
+		}
+	}
+	cmds[j - 1 - k] = 0;
+	return (cmds);
+}
+
+char	**ft_remove_quotes(char **cmds)
+{
+	int		i;
+	char	c;
+	int		k;
+
 	i = 0;
+	k = 0;
 	while (cmds[i])
 	{
 		if (cmds[i][0] == 34 || cmds[i][0] == 39)
 		{
-			j = 0;
-			while (cmds[i][j])
-			{
-				cmds[i][j] = cmds[i][j + 1];
-				j++;
-			}
-			cmds[i][j - 1] = 0;
+			c = 39;
+			if (cmds[i][0] == 34)
+				c = 34;
+			cmds[i] = ft_handle_quotes_util(cmds[i], k, c);
 		}
 		i++;
 	}
 	return (cmds);
 }
-
 char	*ft_adjust(char *t, int add)
 {
 	char	*rslt;
