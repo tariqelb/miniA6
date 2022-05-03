@@ -119,6 +119,7 @@ int	ft_export(t_mini *data, g_built *built, int loop)
 	{
 		if (built->export == NULL)
 			ft_exportdup(data, built, loop);
+		ft_change_shlvl(data, built);
 		ft_sort_export(data, built);
 		ft_print_export(data, built, loop);
 	}
